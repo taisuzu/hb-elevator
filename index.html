@@ -8,7 +8,7 @@
 <title>Happy Birthday</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Shippori+Mincho:wght@500;700&family=Zen+Maru+Gothic:wght@500;700&family=DotGothic16&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=mw6llm5k">
+<link rel="stylesheet" href="style.css?v=mw6mtwpv">
 </head>
 <body>
 
@@ -66,13 +66,26 @@
     <div class="collage" id="collage"></div>
     <div class="body" id="letterBody"></div>
     <p class="from" id="letterFrom"></p>
+    <div class="ps" id="letterPs" hidden>
+      <p>P.S. ちみたんたちから、もうひとつお届けものが…</p>
+      <button id="openMovie">▶ 受けとる</button>
+    </div>
     <button id="closeLetter">とじる</button>
+  </div>
+</div>
+
+<!-- 手紙のあとの動画 -->
+<div id="movie" hidden>
+  <video id="movieVideo" playsinline webkit-playsinline preload="auto"></video>
+  <div class="movie-end" id="movieEnd" hidden>
+    <button id="movieAgain">もういちど</button>
+    <button id="movieClose">とじる</button>
   </div>
 </div>
 
 <div id="fx"></div>
 
-<script src="music.js?v=mw6llm5k"></script>
-<script src="boot.js?v=mw6llm5k"></script>
+<script src="music.js?v=mw6mtwpv"></script>
+<script src="boot.js?v=mw6mtwpv"></script>
 </body>
 </html>

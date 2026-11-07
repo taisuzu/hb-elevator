@@ -431,6 +431,26 @@
   $('#letterBtn').addEventListener('click', () => { $('#letter').hidden = false; ding(); });
   $('#closeLetter').addEventListener('click', () => { $('#letter').hidden = true; });
 
+  // 手紙の追伸 → 動画（流れている間はBGMを止める）
+  if (C.finale) {
+    const movie = $('#movie'), mv = $('#movieVideo'), mEnd = $('#movieEnd');
+    mv.src = asset(C.finale);
+    $('#letterPs').hidden = false;
+    const play = () => { mEnd.hidden = true; mv.currentTime = 0; mv.play().catch(() => {}); };
+    $('#openMovie').addEventListener('click', () => {
+      Music.setVolume(0);
+      $('#letter').hidden = true;
+      movie.hidden = false;
+      play();
+    });
+    mv.addEventListener('ended', () => { mEnd.hidden = false; });
+    $('#movieAgain').addEventListener('click', play);
+    $('#movieClose').addEventListener('click', () => {
+      mv.pause(); movie.hidden = true; $('#letter').hidden = false;
+      if (!muted) Music.setVolume(1);
+    });
+  }
+
   // ---------- 入口（カウントダウン・合言葉） ----------
   $('#gateName').textContent = C.herName;
   const openAt = C.openAt ? new Date(C.openAt).getTime() : 0;
