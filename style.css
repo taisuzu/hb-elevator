@@ -218,6 +218,8 @@ button { font: inherit; cursor: pointer; }
 .slide .blur { object-fit: cover; filter: blur(16px) brightness(.65); transform: scale(1.2); }
 .slide .main { object-fit: cover; }
 .slide.land .main { object-fit: contain; }
+.slide.video { background: #000; }
+.slide.video.on .main { animation: none; }
 .slide.on .main { animation: kb 7s ease-out forwards; }
 @keyframes kb { from { transform: scale(1.07); } to { transform: scale(1); } }
 .dots { position: absolute; left: 0; right: 0; bottom: 6px; z-index: 2; display: flex; gap: 5px; justify-content: center; pointer-events: none; }

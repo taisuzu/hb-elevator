@@ -92,6 +92,17 @@
     const box = el('div', 'slides');
     f.slideEls = f.list.map((src, k) => {
       const sl = el('div', 'slide' + (k === 0 ? ' on' : ''));
+      if (/\.mp4$/i.test(src)) {
+        // 動画：音なしで自動再生（BGMとぶつからないように）
+        const v = document.createElement('video');
+        v.className = 'main'; v.src = asset(src);
+        v.muted = true; v.playsInline = true; v.preload = 'auto';
+        v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+        v.addEventListener('loadedmetadata', () => { if (v.videoWidth > v.videoHeight * 1.05) sl.classList.add('land'); });
+        sl.classList.add('video'); sl.append(v); sl.video = v;
+        box.append(sl);
+        return sl;
+      }
       const blur = photoImg(src, label, f.month * 30); blur.className = 'blur';
       const main = photoImg(src, label, f.month * 30); main.className = 'main';
       main.addEventListener('load', () => { if (main.naturalWidth > main.naturalHeight * 1.05) sl.classList.add('land'); });
@@ -114,7 +125,17 @@
     f.slideIdx = (f.slideIdx + 1) % f.slideEls.length;
     f.slideEls[f.slideIdx].classList.add('on'); f.dotEls[f.slideIdx].classList.add('on');
     f.lastSlide = Date.now();
+    playCurrent(f);
   }
+  // 表示中のスライドが動画なら頭から再生し、それ以外の動画は止める
+  function playCurrent(f) {
+    (f.slideEls || []).forEach((sl, k) => {
+      if (!sl.video) return;
+      if (k === f.slideIdx) { sl.video.currentTime = 0; sl.video.play().catch(() => {}); }
+      else sl.video.pause();
+    });
+  }
+  const pauseAll = (f) => (f?.slideEls || []).forEach((sl) => sl.video?.pause());
 
   // ---------- フロア構成 ----------
   const floors = [
@@ -258,17 +279,21 @@
   const car = $('#car'), frame = $('#frame'), spacer = $('#spacer');
   const floorNum = $('#floorNum'), floorLabel = $('#floorLabel'), arrow = $('#arrow'), hint = $('#hint');
   const peek = document.querySelector('.peek');
-  let vh = innerHeight, lastW = innerWidth, started = false;
+  // 読み込み直後に高さが0になる環境があるので、その場合は取り直す
+  const getVh = () => innerHeight || document.documentElement.clientHeight || 800;
+  let vh = getVh(), lastW = innerWidth, started = false;
   let cur = -1, arrived = -1, fullShown = false, curOpen = 1;
   // 扉が開いている間は3.5秒ごとに写真を送る
   setInterval(() => {
     const f = floors[cur];
     if (!started || !f || curOpen < .95 || !f.slideEls) return;
+    const v = f.slideEls[f.slideIdx].video;
+    if (v && !v.ended && !v.paused) return; // 動画は最後まで見せてから次へ
     if (Date.now() - (f.lastSlide || 0) > 4200) nextSlide(f);
   }, 500);
 
   function layout() {
-    vh = innerHeight;
+    vh = getVh();
     spacer.style.height = ((N - 1) * SEG * vh + vh) + 'px';
     spacer.querySelectorAll('.snap').forEach((s) => s.remove());
     for (let k = 0; k < N; k++) {
@@ -278,6 +303,7 @@
   const ease = (x) => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
 
   function update() {
+    if (!vh) layout();
     const u = Math.max(0, scrollY / (SEG * vh)) + .5;
     let i = Math.floor(u), t = u - i;
     if (i >= N - 1) { i = N - 1; t = Math.min(t, .5); }
@@ -306,6 +332,8 @@
 
   function onArrive(f) {
     ding();
+    floors.forEach((g) => { if (g !== f) pauseAll(g); });
+    if (f.slideEls) playCurrent(f);
     navigator.vibrate?.(30);
     const ind = $('#indicator'); ind.classList.remove('flash'); void ind.offsetWidth; ind.classList.add('flash');
     if (f.type === 'bday') toast('最上階、おたんじょうび会場です');

@@ -66,7 +66,7 @@
     // 設定（名前・手紙など）を読み込んでから本体を起動
     const load = (src) => new Promise((ok, ng) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = ng; document.body.append(s); });
     await load(URL.createObjectURL(new Blob([manifest.code], { type: 'text/javascript' })));
-    await load('script.js?v=mw6jdvrk');
+    await load('script.js?v=mw6lgnjx');
     lock.classList.add('bye');
     setTimeout(() => lock.remove(), 900);
   });
