@@ -13,7 +13,7 @@
       <h1 class="gate-title"><em>for</em> you</h1>
       <p class="gate-sub">合言葉を入れてください</p>
       <form id="lockForm">
-        <input id="lockPass" type="password" autocomplete="off" placeholder="あいことば">
+        <input id="lockPass" type="text" lang="ja" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="ひらがなで入力">
         <button id="lockBtn" type="submit">ひらく</button>
       </form>
       <p id="lockMsg" class="gate-note"></p>
