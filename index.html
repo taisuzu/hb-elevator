@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f0d0b">
+<title>Happy Birthday</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Shippori+Mincho:wght@500;700&family=Zen+Maru+Gothic:wght@500;700&family=DotGothic16&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 入口：カウントダウン＋合言葉 -->
+<div id="gate">
+  <div class="gate-inner">
+    <p class="gate-kicker">PRIVATE ELEVATOR</p>
+    <span data-chimi="gate-chimi"></span>
+    <h1 class="gate-title"><em>for</em> <span id="gateName"></span></h1>
+    <p class="gate-sub">2026年をのぼる、とくべつなエレベーター</p>
+    <div id="countdown"></div>
+    <div id="enterBox" hidden>
+      <input id="pass" type="text" placeholder="あいことば" autocomplete="off" hidden>
+      <button id="enter">乗る <span>▲</span></button>
+      <p class="gate-note">♪ 音が出ます</p>
+    </div>
+  </div>
+</div>
+
+<!-- エレベーターの中（固定表示。スクロール量で動く） -->
+<div id="stage">
+  <div id="car">
+    <div class="ceiling">
+      <i class="spot s1"></i><i class="spot s2"></i><i class="spot s3"></i>
+      <div class="hanger"><span data-chimi="hang"></span></div>
+    </div>
+    <div id="indicator">
+      <span id="arrow">▲</span><span id="floorNum">L</span><span id="floorLabel">LOBBY</span>
+      <span data-chimi="ind-chimi"></span>
+    </div>
+    <div id="frame">
+      <div id="outside"></div>
+      <div class="seam"></div>
+      <div class="door l"><span data-chimi="sticker"></span></div>
+      <div class="door r"></div>
+      <span data-chimi="peek"></span>
+    </div>
+    <div id="panel"></div>
+    <div class="rail"></div>
+    <div class="floorboard"></div>
+    <div id="riders"></div>
+  </div>
+  <div id="hint">スクロールで上へまいります</div>
+  <button id="mute" aria-label="音楽">♪</button>
+  <div id="toast"></div>
+</div>
+
+<div id="spacer"></div>
+
+<!-- 手紙 -->
+<div id="letter" hidden>
+  <div class="paper">
+    <span data-chimi="corner tl"></span><span data-chimi="corner tr"></span>
+    <span data-chimi="corner bl"></span><span data-chimi="corner br"></span>
+    <div class="collage" id="collage"></div>
+    <div class="body" id="letterBody"></div>
+    <p class="from" id="letterFrom"></p>
+    <button id="closeLetter">とじる</button>
+  </div>
+</div>
+
+<div id="fx"></div>
+
+<script src="music.js"></script>
+<script src="boot.js"></script>
+</body>
+</html>
